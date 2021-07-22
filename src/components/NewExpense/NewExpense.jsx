@@ -5,23 +5,35 @@ import "./NewExpense.css"
 
 const NewExpense = (props) => {
 
-const [date, setDate] = useState("")
-const [title, setTitle] = useState("")
-const [amount, setAmount] = useState(0)
+// const [date, setDate] = useState("")
+// const [title, setTitle] = useState("")
+// const [amount, setAmount] = useState(0)
+
+const [expense, setExpense] = useState({date: "", title: "", amount: 0})
 
 function dateHandler(event){
-  setDate(new Date(event.target.value))
+  // setDate(new Date(event.target.value))
+  setExpense((prev)=>{return {...prev, date: (event.target.value)}})
 }
 
 function titleHandler(event){
-  setTitle(event.target.value)
+  //setTitle(event.target.value)
+  setExpense((prev)=>{return {...prev, title: event.target.value}})
 }
 
 function amountHandler(event){
-  setAmount(parseFloat(event.target.value))
+  // setAmount(parseFloat(event.target.value))
+  setExpense((prev)=>{return {...prev, amount: parseFloat(event.target.value)}})
 }
 
-const expense = {date, title, amount}
+function submitHandler (event){
+  event.preventDefault();
+  props.expenseHandler({...expense, date:new Date(date)}) 
+  console.log("HI there")
+  setExpense((prev)=>{return {...prev, date: "", title: "", amount: 0}})
+}
+
+ const {date, title, amount} = expense
 
   return (
     <div className="new-expense">
@@ -42,7 +54,7 @@ const expense = {date, title, amount}
          
         </div>
         <div className="new-expense__actions">
-        <button onClick={(event)=> {event.preventDefault(); props.expenseHandler(expense) }}>Add Expense</button>
+        <button onClick={submitHandler}>Add Expense</button>
         </div>
       </form>
     </div>
