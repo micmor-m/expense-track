@@ -10,6 +10,7 @@ const NewExpense = (props) => {
 // const [amount, setAmount] = useState(0)
 
 const [expense, setExpense] = useState({date: "", title: "", amount: 0})
+const [showForm, setShowForm] = useState(false);
 
 function dateHandler(event){
   // setDate(new Date(event.target.value))
@@ -31,12 +32,24 @@ function submitHandler (event){
   props.expenseHandler({...expense, date:new Date(date)}) 
   console.log("HI there")
   setExpense((prev)=>{return {...prev, date: "", title: "", amount: 0}})
+  handleForm();
+}
+
+function abortHandler (event){
+  event.preventDefault();
+  handleForm();
+}
+
+function handleForm() {
+  setShowForm(!showForm);
 }
 
  const {date, title, amount} = expense
 
   return (
     <div className="new-expense">
+       {!showForm && <button onClick={handleForm}>Add New Expense</button>}
+      {showForm && (
       <form action="" method="">
         <div className="new-expense__controls">
           <div  className="new-expense__control">
@@ -54,9 +67,11 @@ function submitHandler (event){
          
         </div>
         <div className="new-expense__actions">
+        <button onClick={abortHandler}>Abort Expense</button>
         <button onClick={submitHandler}>Add Expense</button>
         </div>
       </form>
+      )}
     </div>
    
   )
